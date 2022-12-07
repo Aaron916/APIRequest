@@ -26,38 +26,36 @@ public class RequestHandler {
 
     // Request Json Data
     // Creates an HTTP request to the API
-    // returns the response body or throws an error.
-    /**
-     * @return
-     */
+    // returns the response body or error message
     private String requestJsonData() {
         URL url = null;
         try {
             url = new URL("https://fetch-hiring.s3.amazonaws.com/hiring.json");
         } catch (MalformedURLException e1) {
-            // TODO Auto-generated catch block
+            System.out.println("Error creating URL");
             e1.printStackTrace();
         }
         HttpURLConnection connection = null;
         try {
             connection = (HttpURLConnection) url.openConnection();
         } catch (IOException e1) {
-            // TODO Auto-generated catch block
+            System.out.println("Error creating HTTP connection");
             e1.printStackTrace();
         }
         try {
             connection.setRequestMethod("GET");
         } catch (ProtocolException e) {
-            // TODO Auto-generated catch block
+            System.out.println("Error setting request method");
             e.printStackTrace();
         }
         String responseBody = null;
         try (InputStream response = connection.getInputStream()) {
             Scanner scanner = new Scanner(response);
             responseBody = scanner.useDelimiter("//A").next();
-            System.out.println(responseBody);
+            //System.out.println(responseBody);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            System.out.println("Error getting input stream.");
+            responseBody = "An error occured.";
             e.printStackTrace();
         }
         return responseBody;
